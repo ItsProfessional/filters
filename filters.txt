@@ -493,6 +493,25 @@
   ! Background image
   ||wayback-classic.net/images/background*.gif^
 
+! Itsfoss
+! Header, footer
+itsfoss.com##header, footer
+
+! Sidebar
+itsfoss.com##.sidebar
+
+! Self promotion
+itsfoss.com##a[href*=utm]
+
+! Related posts
+itsfoss.com##.related-posts
+
+! "About the author"
+itsfoss.com##.author-info
+
+! Comments
+itsfoss.com###comments
+
 !--- Appearance ---
 !--- Behaviour ---
 ! Global
