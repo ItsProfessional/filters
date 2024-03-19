@@ -118,7 +118,7 @@
 
 ! Gitlab
   ! Clean sidebar
-!   gitlab.com##ul[aria-labelledby="super-sidebar-context-header"] > li:has(button:is([aria-controls='deploy'], [aria-controls='operate'], [aria-controls='monitor'], [aria-controls='analyze']))
+  ! gitlab.com##ul[aria-labelledby="super-sidebar-context-header"] > li:has(button:is([aria-controls='deploy'], [aria-controls='operate'], [aria-controls='monitor'], [aria-controls='analyze']))
 
   ! Sticky top bar
   gitlab.com##.top-bar-fixed:style(position: absolute !important;)
@@ -273,7 +273,7 @@
 ! MSDN
   ! Header, footer
   learn.microsoft.com##.header-holder
-!   learn.microsoft.com###footer
+  ! learn.microsoft.com###footer
 
   ! Page actions
   learn.microsoft.com###article-header-page-actions
@@ -391,11 +391,11 @@
 
 ! Reddit
   ! Unwanted flaired posts
-!   reddit.com##.Post:has([href="/r/uBlockOrigin/?f=flair_name%3A%22Watercooler%22"], [href="/r/uBlockOrigin/?f=flair_name%3A%22Thank%20you%2C%20uBO%22"])
+  ! reddit.com##.Post:has([href="/r/uBlockOrigin/?f=flair_name%3A%22Watercooler%22"], [href="/r/uBlockOrigin/?f=flair_name%3A%22Thank%20you%2C%20uBO%22"])
 
   ! Chat, moderation buttons in header
   reddit.com###change-username-tooltip-id > span:has(> a[href="https://chat.reddit.com"])
-!   reddit.com###change-username-tooltip-id > span:has(> button[aria-label="Moderation"])
+  ! reddit.com###change-username-tooltip-id > span:has(> button[aria-label="Moderation"])
 
 ! Userupload
   ! Header and footer
@@ -419,8 +419,8 @@
   ! Ad containers
   doubtnut.com##div:has(> div > :is(ins.adsbygoogle, [data-dn-creative-sizes]))
 
-  ! Banners telling you to buy stuff
-!   doubtnut.com##div[id$="-container"] > div:has(> div > div > a:is([href="/pro?source=adfree"], [href^="/course?Exam="]))
+  ! Banners
+  doubtnut.com##div[id$="-container"] > div:has(> div > div > a:is([href="/pro?source=adfree"], [href^="/course?Exam="]))
 
 ! Vedantu
   ! Ads
