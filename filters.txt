@@ -1,0 +1,532 @@
+! Title: ItsProfessional's filters
+! Last modified: %timestamp%
+! Expires: 8 hours
+! Description: My personal filters
+! Homepage: https://github.com/ItsProfessional/filters
+! License: https://github.com/ItsProfessional/filters/blob/master/LICENSE
+!
+! GitHub issues: https://github.com/ItsProfessional/filters/issues
+! GitHub pull requests: https://github.com/ItsProfessional/filters/pulls
+
+!--- Appearance ---
+
+! Modrinth
+  ! Footer
+  modrinth.com##footer
+
+  ! Unnecessary sections
+  modrinth.com##.users-section, .creator-section, .logo-banner
+
+! Rimgo
+  ! Logo
+  rimgo.pussthecat.org##a[href="/"]:has(nav)
+
+  ! Footer
+  rimgo.pussthecat.org##footer
+
+! Wikiwand
+  wikiwand.com##[class^="openai_wrapper"]
+
+! BreezeWiki
+  ! Banners
+  bw.projectsegfau.lt##.bw-top-banner
+
+! Monkeytype
+  ! Banners
+  monkeytype.com##.banner
+
+  ! Don't hide cursors when typing
+  monkeytype.com##body:style(cursor: default !important;)
+
+! Twitter/X
+  twitter.com,x.com##[aria-label="Verified"], nav [href="/i/verified-choose"]
+
+  ! All sections in sidebar
+  twitter.com,x.com##[aria-label="Trending"] > div > div:has(section, aside)
+
+  ! Sidebar footer
+  twitter.com,x.com##[aria-label="Trending"] > div > div:has(> nav[aria-label="Footer"])
+
+  ! "Context is written by people who use X, and appears when rated helpful by others. Find out more." text below community notes
+  twitter.com,x.com##div[data-testid=birdwatch-pivot] + div
+
+! Typeracer
+  ! Popups
+  play.typeracer.com##.rewardPromptPopup
+  play.typeracer.com##.UpgradeAccountPromptDialog
+  play.typeracer.com##.typeracerNotifications
+  play.typeracer.com##.practiceViewScoresPopup
+
+! Hypixel
+  ! Notice banners
+  hypixel.net##.notices
+
+! Minecraft wiki
+  ! Clean footer
+  minecraft.wiki##.mw-footer > ul:is(#footer-places, #footer-icons)
+  minecraft.wiki##.mw-footer > #footer-info > #footer-info-copyright
+
+  ! Remote notices
+  minecraft.wiki###siteNotice
+
+! Twitch
+  twitch.tv##[data-a-target="tw-core-button-label-text"]:has-text('/^(Get Ad-Free)$/'):upward(.top-nav__menu > div > div)
+
+! GitHub
+  ! "Only you can see your full profile" banner on private accounts
+  github.com###user-profile-frame > div > div:has(a[href*="?preview=true"])
+
+  ! Explore section in homepage: https://letsblock.it/filters/github-cleanup
+  github.com##aside.feed-right-sidebar[aria-label="Explore"]
+
+  ! "Overwhelmed by notifications?" prompt: https://letsblock.it/filters/github-cleanup
+  github.com##.js-unwatch-suggestions
+
+  ! "Show feedback" on feed
+  github.com##[data-target="feed-container.feedTitle"] + div > a[href="https://github.com/orgs/github-community/discussions/categories/feed"]
+
+  ! Footer
+  github.com##.footer
+
+  ! Sidebar in code viewer (contains the symbols pane)
+  github.com##.inner-panel-content-not-narrow:has(#symbols-pane)
+
+  ! "Convert to issue" button on checkmarks
+  github.com##button.convert-to-issue-button
+
+  ! Sticky top bars
+  ! github.com###notification-shelf:style(position: static !important;)
+  ! github.com##.gh-header-sticky:style(position: static !important;)
+  ! github.com##.gh-header-shadow
+
+  ! Block certain users
+    ! Reactions
+      github.com##.js-comment-reactions-options > button[id*=reaction_button_component]:has(+ tool-tip:has-text(krystian3w))
+      github.com##.js-comment-reactions-options > button[id*=reaction_button_component]:has(+ tool-tip:has-text(MaxStreamLoL))
+
+    ! Comments
+      github.com##.TimelineItem:has(a[href="/krystian3w"])
+      github.com##.TimelineItem:has(a[href="/MaxStreamLoL"])
+
+    ! Participants list
+      github.com##.participant-avatar[href="/krystian3w"]
+      github.com##.AvatarStack-body > .avatar[href="/krystian3w"]
+
+      github.com##.participant-avatar[href="/MaxStreamLoL"]
+      github.com##.AvatarStack-body > .avatar[href="/MaxStreamLoL"]
+
+! Gitlab
+  ! Clean sidebar
+!   gitlab.com##ul[aria-labelledby="super-sidebar-context-header"] > li:has(button:is([aria-controls='deploy'], [aria-controls='operate'], [aria-controls='monitor'], [aria-controls='analyze']))
+
+  ! Sticky top bar
+  gitlab.com##.top-bar-fixed:style(position: absolute !important;)
+
+  ! Project topic list
+  gitlab.com##div[data-testid="project_topic_list"]
+
+
+! Google
+  ! "People also ask" contextual content: https://letsblock.it/filters/google-search-cleanup
+  www.google.*###rso div.related-question-pair:upward(div[jscontroller])
+
+  ! "Related searches" bottom content: https://letsblock.it/filters/google-search-cleanup
+  google.*###botstuff #bres
+
+  ! "People also search for" popup shown when returning to results: https://letsblock.it/filters/google-search-cleanup
+  !# These unfurl after clicking on a result and going back to the results page
+  google.*###rso div.g div[jscontroller][id^="eob_"]
+  google.*###rso div.MjjYud:has(div[jsname="Cpkphb"] a[href^="/search?"])
+
+  ! Instant answer and rich context result section in the search box
+  google.*###searchform ul[role="listbox"] > li:upward(div[jsname][role="presentation"])
+  google.*###searchform:style(--rhs-width: 0px !important; --rhs-margin: 0px !important;)
+
+  ! "Similar searches" contextual content in image searches: https://letsblock.it/filters/google-search-cleanup
+  google.*##div.isv-r[data-rfg]
+
+  ! Search page footer showing your address: https://letsblock.it/filters/google-search-cleanup
+  google.*###footcnt > #fbarcnt
+
+  ! "Question and Answer" box in right hand pane: https://letsblock.it/filters/google-search-cleanup
+  google.*###rhs #kp-wp-tab-overview div[data-attrid$=" qa"]
+
+  ! "Reviews" box in right hand pane: https://letsblock.it/filters/google-search-cleanup
+  google.*###rhs #kp-wp-tab-overview div[data-attrid$="review_summary"]
+  google.*###rhs #kp-wp-tab-overview div[data-attrid$="third_party_aggregator_ratings"]
+
+! Read the Docs
+  ! Footer
+  readthedocs.io##footer
+
+  ! Versions box
+  readthedocs.io##.rst-versions
+
+  ! Remove limit from sidebar
+  readthedocs.io##nav.wy-nav-side:style(padding-bottom: 0px !important)
+
+! Fandom
+  ! Yellow sidebar: https://letsblock.it/filters/fandom-cleanup
+  fandom.com##.global-navigation
+  fandom.com##.main-container:style(width: 100% !important; margin-left: auto !important; margin-right: auto !important;)
+  fandom.com##.fandom-community-header__background:style(width: 100% !important)
+  fandom.com##.fandom-sticky-header:style(left: 0 !important;)
+  fandom.com##.search-modal::before:style(left: 0 !important;)
+  fandom.com##body:style(border-left: none !important;)
+
+  ! Notification popups at the bottom of the page : https://letsblock.it/filters/fandom-cleanup
+  fandom.com##.notifications-placeholder
+
+  ! Blue "Wikia" bar at the bottom-right corner, which starts with "Check out Fandom...": https://letsblock.it/filters/fandom-cleanup
+  fandom.com###WikiaBar
+
+  ! Global footer at the bottom of every page: https://letsblock.it/filters/fandom-cleanup
+  fandom.com##.global-footer
+
+  ! "fan feed" section at the bottom of the page: https://letsblock.it/filters/fandom-cleanup
+  fandom.com###mixed-content-footer
+
+  ! Right sidebar: https://letsblock.it/filters/fandom-cleanup
+  fandom.com##.page__right-rail
+
+  ! "Explore" tab in the menu: https://letsblock.it/filters/fandom-cleanup
+  fandom.com##.explore-menu.wds-dropdown
+
+  ! Tooltip that pops up when highlighting text: https://letsblock.it/filters/fandom-cleanup
+  fandom.com##.highlight__sticky-container
+
+  ! "Top Trending Searches" on search: https://letsblock.it/filters/fandom-cleanup
+  fandom.com##.search-seeding
+
+  ! Popup menu asking for age: https://letsblock.it/filters/fandom-cleanup
+  fandom.com###age-gate
+
+  ! Gamespot Expert Reviews section: https://letsblock.it/filters/fandom-cleanup
+  fandom.com##.reviews
+
+! Brainly
+  brainly.in##.brn-header-container, .js-react-app-footer
+  brainly.in##.brn-blocker-box, .js-screening-ad-container, .js-rich-ad-container, .ads_banner
+  brainly.in##div[class*="AnswerBoxLayout-module__header"]
+  brainly.in##div[class*="AnswerBoxLayout-module__searchEntryPoint"]
+  brainly.in##div[class*="AnswerBoxLayout-module__actions"]
+  brainly.in##div[class*="AnswerBoxLayout-module__comments"]
+  brainly.in##div[class*="AnswerBoxLayout-module__options"]
+  brainly.in##div[class*="QuestionBoxLayout-module__comments"]
+  brainly.in##div[class*="QuestionBoxHeader-module__side"]
+  brainly.in##div[class*="TextbooksShelf-module__textbooksShelf"]:upward(4)
+  brainly.in##div[class*="LookingForMoreBanner-module__banner"]:upward(3)
+  brainly.in##.js-react-related-questions-and-brainly-plus, .js-react-newest-questions, .js-react-nearest-questions-navigation, .js-react-above-answers, .js-react-below-answers
+  brainly.in##.sg-bubble
+  brainly.in##[data-testid="question_box_actions_slot"], [data-testid="question_box_options_list"]
+
+! Toppr
+  ! Header, footer
+  toppr.com##div[class^=header_container], div[class^=footer_container]
+
+  ! Premium banner
+  toppr.com##div[class^=pageViewToast]
+
+  ! "Open in App" button
+  toppr.com##.show-in-mobile
+
+  ! "Was this answer helpful?" section
+  toppr.com##div[class^=upvote_container]
+
+! PW
+  ! Header, footer
+  pw.live##header, footer
+
+  ! Extraneous top margin
+  pw.live##main:style(margin-top: revert !important;)
+
+  ! Bottom banner
+  pw.live##.bottom-banner
+
+  ! Social links
+  pw.live##.social-links
+
+  ! Call button
+  pw.live##.sticky-call
+
+! MDN
+  ! Featured articles and contributor spotlights on home page
+  developer.mozilla.org##.featured-articles, .contributor-spotlight
+
+  ! "Resources for Developers, by Developers" and "Documenting web technologies, including CSS, HTML, and JavaScript, since 2005."
+  developer.mozilla.org##.homepage-hero > section > *:not(div.homepage-hero-search)
+
+  ! Banners
+  developer.mozilla.org##.top-banner
+
+  ! Header, footer
+  developer.mozilla.org##.sticky-header-container
+  developer.mozilla.org##footer
+
+  ! "Help improve MDN"
+  developer.mozilla.org####.article-footer
+
+  ! Remove sidebar height limit
+  developer.mozilla.org##.sidebar-container:style(--max-height: none !important; --offset: none !important)
+
+! MSDN
+  ! Header, footer
+  learn.microsoft.com##.header-holder
+!   learn.microsoft.com###footer
+
+  ! Page actions
+  learn.microsoft.com###article-header-page-actions
+
+  ! Feedback button
+  learn.microsoft.com###user-feedback
+
+  ! Feedback section
+  learn.microsoft.com##section#site-user-feedback-footer
+
+  ! Additional resources
+  learn.microsoft.com##div[aria-label="Additional resources"]
+
+! Greasy Fork
+  ! Language selector
+  greasyfork.org##form#language-selector
+
+  ! Top sites
+  greasyfork.org###home-top-sites
+  greasyfork.org###home-script-nav:style(border-bottom: none !important; padding-bottom: 0px !important;)
+
+  ! Sections - note: this only works if the language is english
+  greasyfork.org##:matches-path(/^\/en$/) section.text-content > section
+
+  ! Help link
+  greasyfork.org##li.help-link
+
+  ! Logo
+  greasyfork.org##a[href="/en"]:has(img)
+  greasyfork.org###site-name > img
+
+! Arch Wiki
+  ! Sidebar
+  archlinux.org###nav-sidebar
+
+  ! Footer
+  archlinux.org###footer
+
+  ! Introduction
+  archlinux.org###intro
+
+  ! Footer in package list
+  archlinux.org###pkglist-about
+
+  ! Navbar bottom border
+  archlinux.org###archnavbar:style(border-bottom: revert !important;)
+
+  ! Language button
+  wiki.archlinux.org###p-lang-btn
+
+  ! Sticky header
+  wiki.archlinux.org##.vector-header-container:style(position: static !important;)
+
+! AUR
+
+! Git
+  ! Taglines
+  git-scm.com###tagline
+
+! YouTube Comment Finder
+  ! Header
+  ytcomment.kmcat.uk##main-sidenav
+
+! DuckDuckGo
+
+  ! Feedback icon
+  duckduckgo.com,3g2upl4pq6kufc4m.onion,duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion##.js-feedback-btn-wrap
+  duckduckgo.com,3g2upl4pq6kufc4m.onion,duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion##.feedback-prompt
+
+  ! Promo
+  duckduckgo.com,3g2upl4pq6kufc4m.onion,duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion##.header--aside__item--hidden-lg.header--aside__item
+
+  ! Footer
+  ||/assets/icons/footer/reddit.svg$image,domain=duckduckgo.com|3g2upl4pq6kufc4m.onion|duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion
+  ||/assets/icons/footer/twr.svg$image,domain=duckduckgo.com|3g2upl4pq6kufc4m.onion|duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion
+  duckduckgo.com,3g2upl4pq6kufc4m.onion,duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion##.footer
+
+  ! Shopping tab
+  duckduckgo.com,3g2upl4pq6kufc4m.onion,duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion##[data-zci-link="products"]
+  ||links.duckduckgo.com^$removeparam=ad_domain
+
+  ! Twitter link
+  ||/assets/icons/thirdparty/twitter.svg$image,domain=duckduckgo.com|3g2upl4pq6kufc4m.onion|duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion
+  duckduckgo.com,3g2upl4pq6kufc4m.onion,duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion##li.about-profiles__item:has(img[src*="/assets/icons/thirdparty/twitter.svg"])
+
+! Brave
+  ! Tracking
+  ||cdn.search.brave.com/serp/*/static/serp-js/telemetry/*$script
+  ||search.brave.com/api/suggest$removeparam=source
+  ||search.anonymous.ads.brave.com^
+
+  ! Ads
+  search.brave.com##[data-type="ad"]
+  ||search.brave.com/api/ads/*$xhr
+
+  ! "Upgrade to premium"
+  search.brave.com###premium-promo-wrapper
+
+! Malwarebytes forums
+  forums.malwarebytes.com###elFooterSocialLinks
+  forums.malwarebytes.com##[href*="https://www.malwarebytes.com/business"]
+  forums.malwarebytes.com###cleantalk_footer_link
+
+! ProtonMail
+  ! ProtonMail paid
+  mail.proton.me##.flex-align-items-center.flex-nowrap.inline-flex.topnav-link.button-solid-norm.button
+
+! Hybrid analysis
+  hybrid-analysis.com###signatures-malicious > .alert-info.alert
+  hybrid-analysis.com##.small.btn-xs.btn.twitter-share-button
+
+! Codepen
+  ! Referrer warning
+  cdpn.io##.referer-warning
+
+! Reddit
+  ! Unwanted flaired posts
+!   reddit.com##.Post:has([href="/r/uBlockOrigin/?f=flair_name%3A%22Watercooler%22"], [href="/r/uBlockOrigin/?f=flair_name%3A%22Thank%20you%2C%20uBO%22"])
+
+  ! Chat, moderation buttons in header
+  reddit.com###change-username-tooltip-id > span:has(> a[href="https://chat.reddit.com"])
+!   reddit.com###change-username-tooltip-id > span:has(> button[aria-label="Moderation"])
+
+! Userupload
+  ! Header and footer
+  userupload.in##nav, footer
+
+  ! About file section
+  userupload.in##.aboutFile
+
+! Wayback Machine
+  ! Donate banner
+  web.archive.org###donate_banner
+
+! Wikipedia
+  ! Donate banner
+  wikipedia.org##.vector-sitenotice-container
+
+! Doubtnut
+  ! Header and footer
+  doubtnut.com##header, footer
+
+  ! Ad containers
+  doubtnut.com##div:has(> div > :is(ins.adsbygoogle, [data-dn-creative-sizes]))
+
+  ! Banners telling you to buy stuff
+!   doubtnut.com##div[id$="-container"] > div:has(> div > div > a:is([href="/pro?source=adfree"], [href^="/course?Exam="]))
+
+! Vedantu
+  ! Ads
+  vedantu.com###AdBannerCont
+
+  ! Visits
+  vedantu.com##[class^="VisitsAndUpdatedOn_visitsContainer"]
+
+  ! Top right "header image"
+  ||seo-fe.vedantu.com/cdn/images/new-header-img^
+
+  ! Header and footer
+  vedantu.com##[class*="Header_header__"], [class*="Footer_site-footer__"]
+
+  ! Navigation bar
+  vedantu.com##[class^="NavigationBar_navContainerOuter"]
+
+  ! Popups
+  vedantu.com###vui-react-portal-wrapper:has(> [data-testid="popup-container"])
+  vedantu.com##body:style(overflow: revert !important;)
+
+  ! Feedback ("Is this page helpful?")
+  vedantu.com###TopicFeedbackParsed
+
+  ! Courses
+  vedantu.com##[class*="CourseWidget_courseBox__"]
+
+  ! "Live Masterclass"
+  vedantu.com##[class^="ABOfferingsContainer_highlightContainer__"]
+
+  ! Telegram widget
+  vedantu.com##[class^="TelegramWidget_outerdiv__"]
+
+  ! "Latest courses for you"
+  vedantu.com###ai-widget-on-category-page
+
+  ! "Book your Free Demo session"
+  vedantu.com##[class^="BookDemoContainer_bookDemoContainer__"]
+
+  ! Trending topics
+  vedantu.com###trendingTopicsWrap
+
+  ! FAQs
+  vedantu.com###faqs
+
+  ! Comment section
+  vedantu.com###commentSection
+
+  ! Trending topics
+  vedantu.com###trendingTopicsWrap
+
+! Meritnation
+  ! Footer ad
+  meritnation.com###footerJeePlus
+
+! LearnOpenGL
+  learnopengl.com###nav li:style(cursor: inherit !important;)
+  learnopengl.com###admessage
+  learnopengl.com###menu_book
+  learnopengl.com###donate
+
+! YouTube and YouTube Music -- I have way too many filters for YouTube, so they are kept on another file
+!#include youtube.txt
+
+! Betterbird
+  ! Background icon image
+  ||betterbird.eu/betterbird-bg.svg^
+
+! Wayback classic
+  ! Background image
+  ||wayback-classic.net/images/background*.gif^
+
+!--- Appearance ---
+!--- Behaviour ---
+! Global
+  ! Defuse PWAs by blocking web application manifests
+  $csp=manifest-src 'none'
+
+  ! Block redirects to Microsoft's login page
+  ||login.microsoftonline.com^$subdocument,xhr,domain=~microsoftonline.com|~microsoft.com|~office365.com|~office.com|~bing.com|~live.com|~exlibrisgroup.com|~kanopy.com
+
+! Brainly
+  ! Login wall
+  brainly.in##+js(set-local-storage-item, simple-funnel-cursor, $remove$)
+  brainly.in##+js(set-local-storage-item, simple-funnel-cursor-set-time, $remove$)
+  brainly.in##+js(set-local-storage-item, simple-funnel-denied-day-occurences, $remove$)
+  brainly.in##+js(set-local-storage-item, simple-funnel-denied-day-occurences-set-date, $remove$)
+  brainly.in##+js(set-local-storage-item, simple-funnel-name, $remove$)
+
+! PW
+  ! Popups
+  pw.live##+js(nostif, pwBanner)
+
+! Meritnation
+  ! Login wall
+  meritnation.com##+js(set, mnRegLoginPopup.showLogin, noopFunc)
+  meritnation.com##+js(set, mnRegLoginPopup.showRegister, noopFunc)
+
+! Remove Adguard's redirector used for links the AdGuard GitHub repo
+github.com##+js(href-sanitizer, a[href^="https://adguardteam.github.io/AnonymousRedirect/redirect.html?url="])
+
+!--- Behaviour ---
+
+! Unbreak
+!#include unbreak.txt
+
+! Mobile-specific filters
+!#if env_mobile
+!#include mobile.txt
+!#endif

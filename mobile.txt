@@ -1,0 +1,10 @@
+! Title: ItsProfessional's filters - Mobile-specific filters
+! Last modified: %timestamp%
+! Expires: 8 hours
+! Description: My personal filters
+! Homepage: https://github.com/ItsProfessional/filters
+! License: https://github.com/ItsProfessional/filters/blob/master/LICENSE
+!
+! GitHub issues: https://github.com/ItsProfessional/filters/issues
+! GitHub pull requests: https://github.com/ItsProfessional/filters/pulls
+

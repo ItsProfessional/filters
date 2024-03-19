@@ -1,0 +1,22 @@
+! Title: ItsProfessional's filters - Unbreak
+! Last modified: %timestamp%
+! Expires: 8 hours
+! Description: My personal filters
+! Homepage: https://github.com/ItsProfessional/filters
+! License: https://github.com/ItsProfessional/filters/blob/master/LICENSE
+!
+! GitHub issues: https://github.com/ItsProfessional/filters/issues
+! GitHub pull requests: https://github.com/ItsProfessional/filters/pulls
+
+! Fix tweet not showing when opening the comments
+twitter.com,twitter3e4tixl4xyajtrzo62zg5vztmjuricljdp2c5kshju4avyoid.onion#@#article div>svg>g>[d^="M17.863 13.44c1.477"]:upward(article)
+
+! Disable t.co tracking protection: https://github.com/stephenhawk8054/PrivacyExtended/blob/a0fbdd5f64f97e1b62089f8cad3f2260c075dff2/privacy_extended.txt#L17413-L17414
+! The filter doesn't always work, for example, in card links. I use this userscript instead: https://greasyfork.org/en/scripts/404632-twitter-direct
+twitter.com#@#+js(href-sanitizer, a[href^="https://t.co/"])
+
+! Community notes: https://github.com/DandelionSprout/adfilt/blob/9dfd70503383a5912e748be2dd1e08c795051f3f/TwitterPureReadingExperience.txt#L52-L54
+twitter.com,x.com#@#div[data-testid=birdwatch-pivot]
+
+! Unhide AutoModerator comments: https://github.com/yokoffing/filterlists/blob/8575c05a2743e4a918fae44885128fa04aa0ee65/annoyance_list.txt#L865-L866
+reddit.com#@#._1YCqQVO-9r-Up6QPB9H6_4 > div > div:has-text(AutoModerator)

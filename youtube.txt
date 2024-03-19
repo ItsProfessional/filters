@@ -1,0 +1,500 @@
+! Title: ItsProfessional's filters - YouTube-specific filters
+! Last modified: %timestamp%
+! Expires: 8 hours
+! Description: My personal filters
+! Homepage: https://github.com/ItsProfessional/filters
+! License: https://github.com/ItsProfessional/filters/blob/master/LICENSE
+!
+! GitHub issues: https://github.com/ItsProfessional/filters/issues
+! GitHub pull requests: https://github.com/ItsProfessional/filters/pulls
+
+! IMPORTANT ---- I wrote a lot of these filters when I was still new to the filter syntax, and as such
+! a lot of these (either my own or copied from elsewhere) are inefficient (for example, many use procedurals
+! like `:has-text()` and `:upward()` where it's not necessary) and as a result WILL slow down YouTube.
+! Also, while I try to ensure otherwise, I can't guarantee that these filters won't trip YouTube's detection
+! scripts. As such, ALWAYS disable this list and test again before reporting YouTube detection on uAssets's
+! pinned issue. I will soon rewrite this list to 1. reduce the amount of filters and 2. make these more
+! efficient. For now, this list is wrapped in a `!#if false`.
+
+!#if false
+
+!--- Appearance ---
+
+! YouTube
+  ! Hide "Donating is unavailable in this country"
+  youtube.com##.ytd-donation-unavailable-renderer:upward(2)
+
+  ! Cleanup sidebar
+  youtube.com###guide-links-primary
+  youtube.com###guide-links-secondary
+  youtube.com###copyright
+  youtube.com###guide-section-title:has-text(More from YouTube):upward(ytd-guide-section-renderer)
+  youtube.com###guide-section-title:has-text(Subscriptions):upward(ytd-guide-section-renderer)
+  youtube.com###guide-section-title:has-text(Explore):upward(ytd-guide-section-renderer) > #items > ytd-guide-entry-renderer:has(a:is([title="Shopping"], [title="Movies"], [title="News"], [title="Sports"], [title="Learning"], [title="Fashion & Beauty"]))
+  youtube.com##ytd-guide-section-renderer:has(a[href="/account"]) > #items > ytd-guide-entry-renderer > a:is([title="Help"], [title="Send feedback"])
+
+  ! Hide YouTube Shorts: https://letsblock.it/filters/youtube-shorts
+    ! Navigation links
+    youtube.com##ytd-guide-renderer a.yt-simple-endpoint path[d^="M10 14.65v-5.3L15 12l-5 2.65zm7.77-4.33"]:upward(ytd-guide-entry-renderer)
+    youtube.com##ytd-mini-guide-renderer a.yt-simple-endpoint path[d^="M10 14.65v-5.3L15 12l-5 2.65zm7.77-4.33"]:upward(ytd-mini-guide-entry-renderer)
+
+    ! New style with logo, desktop
+    youtube.com##ytd-browse[page-subtype="home"] .ytd-thumbnail[href^="/shorts/"]:upward(ytd-rich-item-renderer)
+    youtube.com##ytd-browse[page-subtype="subscriptions"] .ytd-thumbnail[href^="/shorts/"]:upward(ytd-grid-video-renderer,ytd-rich-item-renderer)
+    youtube.com##ytd-search .ytd-thumbnail[href^="/shorts/"]:upward(ytd-video-renderer)
+
+    ! Subscriptions in list mode, hide the whole section as subsequent videos from same channel are currently pushed in separate sections
+    youtube.com##ytd-browse[page-subtype="subscriptions"] ytd-video-renderer .ytd-thumbnail[href^="/shorts/"]:upward(ytd-item-section-renderer)
+
+    ! Suggestion sidebar, individual shorts
+    youtube.com##ytd-watch-next-secondary-results-renderer .ytd-thumbnail[href^="/shorts/"]:upward(ytd-compact-video-renderer,ytd-shelf-renderer)
+
+    ! Trending section
+    youtube.com##ytd-browse[page-subtype="trending"] .ytd-thumbnail[href^="/shorts/"]:upward(ytd-video-renderer)
+
+    ! Search results
+    youtube.com##ytd-search .ytd-thumbnail[href^="/shorts/"]:upward(ytd-video-renderer)
+
+    ! Notifications menu
+    youtube.com##ytd-notification-renderer:has(> a[href^="/shorts/"])
+
+    ! Wide-band rules to hide generic forms of short shelves across different pages
+    youtube.com##ytd-rich-shelf-renderer[is-shorts]
+    youtube.com##ytd-rich-shelf-renderer[is-shorts].ytd-rich-section-renderer:upward(ytd-rich-section-renderer)
+    youtube.com##ytd-reel-shelf-renderer
+
+    ! Mobile homepage shorts shelf
+    m.youtube.com##ytm-reel-shelf-renderer
+
+    ! Mobile navbar item
+    m.youtube.com##ytm-pivot-bar-renderer div.pivot-shorts:upward(ytm-pivot-bar-item-renderer)
+
+    ! Mobile subscriptions page
+    m.youtube.com##ytm-browse ytm-item-section-renderer ytm-thumbnail-overlay-time-status-renderer[data-style="SHORTS"]:upward(ytm-video-with-context-renderer)
+
+    ! Mobile channel video list
+    m.youtube.com##ytm-browse ytm-item-section-renderer ytm-thumbnail-overlay-time-status-renderer[data-style="SHORTS"]:upward(ytm-compact-video-renderer)
+
+    ! Mobile search results
+    m.youtube.com##ytm-search ytm-thumbnail-overlay-time-status-renderer[data-style="SHORTS"]:upward(ytm-compact-video-renderer,ytm-video-with-context-renderer)
+
+    ! Mobile sidebar suggestions
+    m.youtube.com##ytm-single-column-watch-next-results-renderer ytm-thumbnail-overlay-time-status-renderer span:has-text(/^(0:\d\d|1:0\d)$/):upward(ytm-video-with-context-renderer)
+
+    ! Match the ytd-rich-grid-row element and its #contents child, to disable their CSS boxing 
+    youtube.com##ytd-rich-grid-row, #contents.ytd-rich-grid-row:style(display:contents !important;)
+
+  ! Hide view count
+  ! youtube.com##span.ytd-video-meta-block.style-scope.inline-metadata-item:nth-of-type(1)
+  ! youtube.com##span.ytd-video-meta-block.style-scope.inline-metadata-item:nth-of-type(2)::before
+
+  ! Featured banners
+  youtube.com###badge-container > .ytd-brand-video-shelf-renderer.style-scope:has-text(Featured):upward(9)
+
+  ! Extensions
+    ! YCS
+      ! Hide help button
+      youtube.com###ycs_btn_open_modal
+
+      ! Remove icons from buttons
+      youtube.com##.ycs-btn-panel > button > .ycs-icons
+
+      ! Replace emojis with names [requires https://github.com/uBlockO/uBO-Scriptlets]
+      ! Doesn't seem to be working?
+      ! youtube.com##+js(set-inner-html, #ycs_btn_heart > span:first-of-type, Heart)
+      ! youtube.com##+js(set-inner-html, #ycs_btn_verified > span:first-of-type, Verified)
+
+    ! vidIQ
+      ! Clean video sidebar
+      youtube.com##.video-companion-body p:has-text(AI Coach):upward(3)
+
+      ! Clean search sidebar
+      youtube.com##.vidiq-search-companion-content > div > div:has-text(Never miss a trending video):upward(1)
+      youtube.com##.vidiq-search-companion-content > div > div:has-text(Get daily custom AI-generated ideas):upward(1)
+
+      ! Unsure: I forgot what this was about
+      youtube.com##.vidiq-general-upsell
+
+      ! Hide ad in toolbar
+      youtube.com##.vidiq-toolbar-stats .footer
+
+      ! Hide items in YouTube sidebar
+      youtube.com##ytd-guide-entry-renderer.vidiq-yt-sidebar-link
+
+      ! Hide outsource links in dropdown menu on toolbar
+      youtube.com##[data-testid="dropdown-menu"] > div:has(svg)
+
+      ! Hide unwanted items in dropdown menu
+      youtube.com##[data-testid="dropdown-menu"] > div:has-text('/^(Add competitor)$/')
+
+      ! Powered by vidIQ
+      youtube.com##div[class^="vidiq-"]:has(> p:has-text('/^(Powered by vidIQ)$/')):has(> svg)
+      youtube.com##.judgement-tip:has-text('/^(Powered by vidIQ)$/')
+      youtube.com##.vidiq-comment-filter-select-message:has-text('/^(Powered by vidIQ)$/')
+      youtube.com##img[alt="vidIQ badge"]
+
+      ! VPH popover
+      ! youtube.com##.vidiq-vph-popover:upward(.react-popover-node)
+
+      ! Remove menu in toolbar and next to channel name
+      youtube.com##.vidiq-dropdown-button, .vidiq-video-page-menu
+
+      ! Hide stats icon
+      youtube.com##.stats-symbol-container
+
+      ! Hide annoying partner program tooltip
+      youtube.com##.judgement-tip:has-text('/^(To be eligible for the YouTube Partner program, you must reach 4,000 hours watch time and 1,000 subscribers)$/')
+
+      ! Hide tabs in video companion (since only one of the two tabs is usable in the basic version)
+      youtube.com##.video-companion-header > nav
+
+      ! Hide unnecessary speedometer bar
+      youtube.com##.video-companion-body .speedometer
+
+    ! SponserBlock
+    youtube.com###infoButton
+
+  ! Mixes and radios: https://letsblock.it/filters/youtube-mixes
+  youtube.com##ytd-browse #video-title-link[href*="&start_radio=1"]:upward(ytd-rich-item-renderer)
+  youtube.com##ytd-search ytd-radio-renderer
+  youtube.com##ytd-watch-next-secondary-results-renderer ytd-compact-radio-renderer
+  youtube.com##ytd-player div.videowall-endscreen a[data-is-list=true]
+  m.youtube.com##ytm-browse ytm-radio-renderer:upward(ytm-rich-item-renderer)
+  m.youtube.com##ytm-search ytm-compact-radio-renderer
+
+  youtube.com##ytd-rich-grid-row, #contents.ytd-rich-grid-row:style(display:contents !important;)
+
+  ! Hide watched videos: https://letsblock.it/filters/youtube-watched
+    ! Hide watched videos on the homepage 
+    youtube.com##ytd-browse[page-subtype="home"] ytd-thumbnail-overlay-resume-playback-renderer #progress[style="width: 100%;"]:upward(ytd-grid-video-renderer,ytd-rich-item-renderer)
+
+    ! Hide watched videos on the subscription page
+    youtube.com##ytd-browse[page-subtype="subscriptions"] ytd-thumbnail-overlay-resume-playback-renderer #progress[style="width: 100%;"]:upward(ytd-grid-video-renderer,ytd-rich-item-renderer)
+    youtube.com##ytd-browse[page-subtype="subscriptions"] ytd-video-renderer ytd-thumbnail-overlay-resume-playback-renderer #progress[style="width: 100%;"]:upward(ytd-item-section-renderer)
+
+    ! Hide watched videos in recommendations 
+    youtube.com##ytd-watch-next-secondary-results-renderer ytd-thumbnail-overlay-resume-playback-renderer #progress[style="width: 100%;"]:upward(ytd-compact-video-renderer)
+
+  ! Hide all sections on the homepage that don't contain videos: https://letsblock.it/filters/youtube-homepage-cleanup
+  youtube.com##ytd-browse[page-subtype="home"] ytd-rich-section-renderer:not(:has(ytd-feed-nudge-renderer))
+
+  ! Hide section called "New Posts" on the homepage
+  youtube.com##ytd-rich-item-renderer[is-post].ytd-rich-shelf-renderer:upward(ytd-rich-section-renderer)
+
+  ! Hide related searches and related results from the YouTube search results, only leaving organic matches for the search: https://letsblock.it/filters/youtube-search-cleanup
+    ! Non organic results such as For You, Previously Watched, People Also Watched...
+    youtube.com##ytd-search ytd-item-section-renderer ytd-shelf-renderer
+    ! Related searches
+    youtube.com##ytd-search ytd-item-section-renderer ytd-horizontal-card-list-renderer
+
+  ! Hide YouTube "nudges" on the homepage (cards such as "Looking for something different?" placed between videos)
+  youtube.com##ytd-browse[page-subtype="home"] :is(ytd-rich-item-renderer, ytd-rich-section-renderer):has(ytd-feed-nudge-renderer)
+
+  ! Hide create button
+  youtube.com##ytd-topbar-menu-button-renderer:has(button[aria-label="Create"])
+
+  ! Hide voice search button
+  youtube.com###voice-search-button
+
+  ! Hide YouTube feed filter bar
+  youtube.com###chip-bar
+  youtube.com##yt-related-chip-cloud-renderer
+  youtube.com###header:has(ytd-feed-filter-chip-bar-renderer[component-style="FEED_FILTER_CHIP_BAR_STYLE_TYPE_DEFAULT"])
+
+  ! Hide comment heart tooltip
+  youtube.com##tp-yt-paper-tooltip:has(> #tooltip:has-text('/^(?:\s*)❤ by (?:.*)/'))
+
+  ! Hide badges (such as "New") under video recommendations on the sidebar
+  youtube.com##ytd-video-meta-block + ytd-badge-supported-renderer
+
+  ! Remove buttons (such as "Notify me" for upcoming livestreams) under videos in sidebar or homepage
+  youtube.com##ytd-video-meta-block ~ #buttons
+
+  ! Video player
+    ! Hide video player gradient
+    youtube.com##.ytp-gradient-bottom
+    youtube.com##.ytp-gradient-top
+
+    ! Hide the hashtags above the video title: https://letsblock.it/filters/youtube-cleanup
+    youtube.com###description #info a[href^="/hashtag/"]
+    youtube.com##.super-title
+    m.youtube.com##.standalone-collection-badge a[href^="/hashtag/"]
+    m.youtube.com##ytm-video-description-header-renderer button-view-model a[href^="/hashtag/"]
+
+    ! Hide the text label of the dislike/share/download/report/save buttons: https://letsblock.it/filters/youtube-cleanup
+    youtube.com###actions.ytd-watch-metadata button > div[class$="text-content"]:not(:has-text(/[\d]/))
+    youtube.com###actions.ytd-watch-metadata ytd-button-renderer .yt-spec-button-shape-next .yt-spec-button-shape-next--button-text-content
+    youtube.com###actions.ytd-watch-metadata ytd-button-renderer .yt-spec-button-shape-next__icon:style(margin-right: -6px !important; margin-left: -6px !important;)
+    m.youtube.com##ytm-slim-video-action-bar-renderer button [class*="button-text-content"]:not(:has-text(/\d/))
+    m.youtube.com##ytm-slim-video-action-bar-renderer ytm-button-renderer div[class$="icon"]:style(margin-right: -6px !important; margin-left: -6px !important;)
+
+    ! Hide the copyright notice in the video description: https://letsblock.it/filters/youtube-cleanup
+    youtube.com###description .ytd-watch-metadata #items:has(.ytd-video-description-music-section-renderer)
+    youtube.com###description .ytd-watch-metadata #items > ytd-horizontal-card-list-renderer:has(ytd-video-attribute-view-model)
+    m.youtube.com##.video-attribute-card-shelf:has(yt-video-attribute-view-model):upward(ytm-horizontal-card-list-renderer)
+
+    ! Hide the chapter timeline in the video description box: https://letsblock.it/filters/youtube-cleanup
+    youtube.com###structured-description ytd-horizontal-card-list-renderer:not(:has(ytd-video-attribute-view-model))
+    m.youtube.com##.macromarker:upward(ytm-horizontal-card-list-renderer):not(:has(.video-attribute-card-shelf))
+
+    ! Hide "Shorts remixing this video" shelf in the description
+    youtube.com##ytd-reel-shelf-renderer
+
+    ! Hides the section that says "follow the transcript" in the video description box: https://letsblock.it/filters/youtube-cleanup
+!      youtube.com##ytd-video-description-transcript-section-renderer
+
+    ! Hide the reaction bar in the live chat, which hovers over messages: https://letsblock.it/filters/youtube-cleanup
+    youtube.com##.yt-reaction-control-panel-overlay-view-model
+
+    ! Disable touchscreen swipe actions (switch tab, PIP mode...): https://letsblock.it/filters/youtube-cleanup
+    youtube.com##+js(aeld, /^pan(start|move|end)$/)
+
+    ! Disable ambient mode: https://letsblock.it/filters/youtube-cleanup
+    youtube.com###cinematics.ytd-watch-flexy:remove()
+
+    ! Hide Join button
+    youtube.com###sponsor-button
+
+    ! Consistent verified symbol [requires https://github.com/uBlockO/uBO-Scriptlets]
+    ! By default, as of 20th October 2023, YouTube uses a tickmark in a filled circle for the verified icon in the video metadata (next to channel name under the thumbnail)
+    ! However, for comments, it just uses a thin tick symbol. For channel owners, it uses the standard filled circle.
+    ! This solves the inconsistency by making ALL comments use the filled circle
+!     youtube.com##+js(set-attribute, #author-comment-badge svg > path, d, "M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zM9.8 17.3l-4.2-4.1L7 11.8l2.8 2.7L17 7.4l1.4 1.4-8.6 8.5z")
+    youtube.com##+js(trusted-set-attr, d, 'M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zM9.8 17.3l-4.2-4.1L7 11.8l2.8 2.7L17 7.4l1.4 1.4-8.6 8.5z', #author-comment-badge svg > path)
+
+    ! Hide Verified checkmark
+    youtube.com##ytd-badge-supported-renderer:has(.badge-style-type-verified)
+    youtube.com##.ytd-comment-renderer #author-text:remove-attr(hidden)
+    youtube.com##.ytd-comment-renderer #author-comment-badge
+    youtube.com##.ytd-comment-renderer #author-text > yt-formatted-string:remove-class(channel-owner)
+
+    ! Don't enter / exit fullscreen on double-click: https://letsblock.it/filters/youtube-cleanup
+    !youtube.com##+js(aeld, dblclick)
+
+    ! Hide View Products
+    youtube.com##.ytp-suggested-action-badge-expanded
+
+    ! Hide Includes paid promotion
+    youtube.com##.ytp-paid-content-overlay
+
+    ! Hide channel tagline (about page preview under channel name on channel page) and links
+    youtube.com###channel-tagline, #channel-header-links
+
+    ! Hide upcoming videos and streams
+      youtube.com##ytd-browse ytd-grid-video-renderer:has(ytd-thumbnail-overlay-time-status-renderer[overlay-style="UPCOMING"])
+      youtube.com##ytd-browse ytd-rich-item-renderer:has(ytd-thumbnail-overlay-time-status-renderer[overlay-style="UPCOMING"])
+
+      ! Subscriptions in list mode, hide the whole section as subsequent videos from same channel are currently pushed in separate sections
+      youtube.com##ytd-browse[page-subtype="subscriptions"] ytd-video-renderer ytd-thumbnail-overlay-time-status-renderer[overlay-style="UPCOMING"]:upward(ytd-item-section-renderer)
+
+      ! Match the ytd-rich-grid-row element and its #contents child, to disable their CSS boxing
+      youtube.com##ytd-rich-grid-row, #contents.ytd-rich-grid-row:style(display:contents !important;)
+
+    ! Hide next and previous buttons, which may accidentally be clicked since it's near the Play button
+    youtube.com##.ytp-button:is(.ytp-prev-button, .ytp-next-button)
+
+    ! Brand image in the corner
+    youtube.com##.ytp-button.branding-img-container
+
+    ! Hide tooltips on controls
+    youtube.com###movie_player > .ytp-tooltip:not(.ytp-preview)
+
+    ! Hide "Pull up for precise seeking" on seekbar preview
+    youtube.com##.ytp-tooltip-edu:has-text(Pull up for precise seeking)
+
+    ! Hide "Scroll for details" button in fullscreen
+    youtube.com##.ytp-fullerscreen-edu-button
+
+    ! Hide "1080p Premium" in the video quality menu
+    !#if env_firefox
+      youtube.com##.ytp-quality-menu .ytp-premium-label:upward(.ytp-menuitem)
+    !#else
+      youtube.com##.ytp-quality-menu .ytp-menuitem:has(.ytp-premium-label)
+    !#endif
+
+    ! Hide top bar in fullscreen
+    youtube.com###movie_player > .ytp-chrome-top > [class^="ytp-"]:remove()
+
+    ! Hide "Share", "Download", "Clip" and "Thanks" buttons
+    youtube.com##ytd-menu-renderer.ytd-watch-metadata ytd-button-renderer > yt-button-shape > button:is([aria-label="Share"], [aria-label="Download"], [aria-label="Clip"], [aria-label="Thanks"]):upward(ytd-button-renderer)
+
+    ! Hide chat if chat replay isn't available
+    youtube.com###chat-container:has(ytd-message-renderer > #message:has-text('/^(Live chat replay is not available for this video|Chat Replay is disabled for this Premiere)\.$/'))
+
+    ! Removes the pop-out player button in the video player (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+    youtube.com##.ytp-button.ytp-miniplayer-button
+
+    ! Removes the Share arrow button in fullscreen mode and in embeds (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+    youtube.com,youtube-nocookie.com##button[class*=share-button]
+
+    ! Removes the large grey [YouTube Kids / game info] buttons below gaming videos (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+    youtube.com##ytd-rich-metadata-renderer.ytd-rich-metadata-row-renderer
+    m.youtube.com##ytm-watch-metadata-app-promo-renderer
+    m.youtube.com##ytm-rich-metadata-renderer
+
+    ! Removes video epilogue suggestion overlays (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+    youtube.com##.ytp-ce-element-show
+
+    ! Hide language in transcripts
+    youtube.com##ytd-transcript-footer-renderer:upward(#footer)
+
+  ! Animations: https://www.reddit.com/r/uBlockOrigin/comments/17u64ue/hide_youtubes_new_annoying_animations/
+    ! Prevent stats (such as likes and views) from live-updating
+    ! Example: https://www.reddit.com/r/youtube/comments/15c7ndi/youtube_has_added_live_updating_view_counts/
+    ||youtube.com/youtubei/v1/updated_metadata
+
+    ! Hide "smartimation" animations
+    ! These animations usually contain a "lottie" border
+    ! Example: https://www.reddit.com/r/youtube/comments/15ri8fp/the_subscribe_button_now_plays_an_animation_when/
+    youtube.com##yt-smartimation > :not(.smartimation__content)
+    youtube.com##yt-animated-action > :not(.animated-action__content-with-background)
+    youtube.com##:is(.smartimation__content, .animated-action__content-with-background) > :has(> lottie-component)
+
+    ! Live reaction overlays
+    ! Example: https://www.reddit.com/r/youtube/comments/13886xr/how_can_i_disable_the_new_live_emoji_reactions/
+    youtube.com##yt-reaction-control-panel-view-model
+    youtube.com##yt-reaction-control-panel-overlay-view-model
+
+    ! Hide video suggestions that obscure the end of the video: https://letsblock.it/filters/youtube-recommendations
+    youtube.com##.ytp-ce-element
+
+    ! Hide the video grid shown after a video ends: https://letsblock.it/filters/youtube-recommendations
+    youtube.com##.ytp-endscreen-content
+
+    ! Remove the script responsible for annotations and endscreen (probably makes the above two filters redundant, but still worth keeping them): https://www.reddit.com/r/uBlockOrigin/wiki/solutions/youtube/#wiki_video_annotations
+    /annotations_module.js$script,important,domain=youtube.com
+    /endscreen.js$script,important,domain=youtube.com
+
+    ! Hide seek indicators
+    youtube.com##.ytp-doubletap-ui, .ytp-doubletap-ui-legacy
+
+
+  ! Removes the Livestream button in the left-hand menu (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+  youtube.com##ytd-guide-entry-renderer:has(a[href*=UC4R8DWoMoI7CAwX8_LjQHig])
+
+  ! Removes the video store button in the left-hand menu (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+  youtube.com##ytd-guide-entry-renderer:has(a[href*=UClgRkhTL3_hImCAmdLfDE4g])
+
+  ! Removes the app drawer in the top-right menu (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+  youtube.com###button:has([aria-label*=app])
+
+  ! Seems to remove "Recommended for you" suggestions (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+  ||youtube.com/related_ajax^
+
+  ! Hide "Store" tab on channels
+  youtube.com##yt-tab-shape[tab-title="Store"]
+
+  ! Removes the large grey [YouTube Kids / game info] buttons below gaming videos (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+  youtube.com##ytd-rich-metadata-renderer.ytd-rich-metadata-row-renderer
+  m.youtube.com##ytm-watch-metadata-app-promo-renderer
+  m.youtube.com##ytm-rich-metadata-renderer
+
+  ! Aims to prevent video suggestions from showing up when pausing embedded videos (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+  ##.ytp-scroll-min
+  ##.ytp-pause-overlay
+  youtube.com##.ytp-scroll-min
+  youtube.com##.ytp-pause-overlay
+
+  ! Removes a banner that promotes YouTube Premium (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+  youtube.com###masthead-ad
+
+  ! Believed to remove sponsored description links inserted by rights holders (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+  youtube.com##ytd-metadata-row-renderer
+
+  ! Aims to remove the "Recommended" tickers on top of YouTube embeds (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+  ##.ytp-cards-teaser
+
+  ! The "Experiencing interruptions" toast popup in the bottom corner when a video is bufferring (due to network congestion, underperforming hardware, or any other reason) (Thanks to https://gist.github.com/gidoBOSSftw5731; probably only works on Anglophone devices) (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+  youtube.com###toast:has(#text-container:has-text(/experiencing interruptions/i))
+
+  ! Homepage info banners (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+  youtube.com##.ytd-rich-section-renderer
+
+  ! The overlays that are visible when you hover over a video for "Watch later" and "Add to queue" (https://github.com/DandelionSprout/adfilt/blob/master/YouTubeEvenMorePureVideoExperience.txt)
+  youtube.com###hover-overlays
+
+  ! "Now playing" thumbnail overlay
+  youtube.com##ytd-thumbnail-overlay-now-playing-renderer
+
+  ! Disable video previews
+    ! If "Inline playback" is enabled in settings
+      youtube.com###video-preview
+    ! If "Inline playback" is disabled in settings
+      youtube.com###mouseover-overlay
+      ||i.ytimg.com/an_webp/*/mqdefault_6s.webp^$image
+
+  ! Hide videos with under 1k views which are 1 min to 6 days old
+  youtube.com##ytd-compact-video-renderer:has(#video-title:not(:is([aria-label*=",0"],[aria-label*=",1"],[aria-label*=",2"],[aria-label*=",3"],[aria-label*=",4"],[aria-label*=",5"],[aria-label*=",6"],[aria-label*=",7"],[aria-label*=",8"],[aria-label*=",9"])):is([aria-label*="minute ago"],[aria-label*="minutes ago"],[aria-label*="hour ago"],[aria-label*="hours ago"],[aria-label*="day ago"],[aria-label*="2 days ago"],[aria-label*="3 days ago"],[aria-label*="4 days ago"],[aria-label*="5 days ago"],[aria-label*="6 days ago"]))
+
+  ! Removes related/featured/popular channels on channel pages
+  youtube.com##.branded-page-v2-secondary-col > .branded-page-related-channels > .yt-uix-tooltip
+  youtube.com##.branded-page-v2-secondary-col > .branded-page-related-channels > .yt-uix-tooltip + .branded-page-related-channels-list
+
+  ! Disable custom occasional yoodles
+  youtube.com##ytd-yoodle-renderer > picture
+  youtube.com##ytd-yoodle-renderer > ytd-logo:remove-attr(hidden)
+  ||youtube.com^$removeparam=bp
+
+  ! Main page banners
+  youtube.com###big-yoodle
+  youtube.com##ytd-statement-banner-renderer, ytm-statement-banner-renderer
+
+  ! Hide videos that are promoted on certain occasions (when YouTube changes the doodle)
+  youtube.com##ytd-brand-video-singleton-rensderer, ytm-brand-video-singleton-renderer
+
+  ! Hide "clarifications" which provide context about search results, videos, etc.
+  youtube.com##ytd-clarification-renderer, ytm-clarification-renderer
+  youtube.com##ytd-info-panel-container-renderer, ytm-info-panel-container-renderer
+  youtube.com###clarify-box
+
+  ! Premium popup
+  youtube.com##yt-mealbar-promo-renderer
+
+  ! Hide country code on YouTube logo
+  youtube.com##ytd-topbar-logo-renderer > #country-code
+
+  ! Hide suggestions on playlist pages: https://letsblock.it/filters/youtube-recommendations
+  youtube.com##ytd-browse[page-subtype="playlist"] [title-style="ITEM_SECTION_HEADER_TITLE_STYLE_PLAYLIST_RECOMMENDATIONS"]:upward(ytd-item-section-renderer)
+  youtube.com##ytd-browse[page-subtype="playlist"] ytd-grid-playlist-renderer:upward(#dismissible)
+
+  ! Hide channel members section on channel pages
+  youtube.com##ytd-item-section-renderer:has(ytd-recognition-shelf-renderer)
+
+  ! Hide horizontal scrollbar. This is only shown on Firefox (version 86 and above)
+  !#if env_firefox
+  youtube.com##ytd-app:style(--ytd-app-fullerscreen-scrollbar-width: -1px !important;)
+  !#endif
+
+  ! Disable scrolling in fullscreen
+  youtube.com##ytd-app:style(overflow: hidden !important;)
+
+! Youtube Music
+  ! Hide promo for YouTube Premium: https://letsblock.it/filters/youtube-music-cleanup
+  music.youtube.com##ytmusic-mealbar-promo-renderer
+
+  ! Hide "Mixed for you"
+  music.youtube.com##h2 a[href="mixed_for_you"]:upward(ytmusic-carousel-shelf-renderer)
+
+  ! Hide "Recommended playlists" 
+  music.youtube.com##h2 a[href="moods_and_genres"]:upward(ytmusic-carousel-shelf-renderer):not(:matches-path(/moods_and_genres))
+
+  ! Hide playlists made by Youtube Music 
+  music.youtube.com##yt-formatted-string > .yt-formatted-string:has-text(YouTube Music):upward(.ytmusic-carousel):not(:matches-path(/moods_and_genres))
+  music.youtube.com##ytmusic-grid-renderer[grid-type="library"] yt-formatted-string:has-text(YouTube Music):upward(ytmusic-two-row-item-renderer)
+  music.youtube.com###contentContainer ytmusic-guide-entry-renderer[play-button-state] .subtitle-group:has-text(YouTube Music):upward(ytmusic-guide-entry-renderer)
+
+  ! Hide "Related" tab next to the music video 
+  music.youtube.com##.ytmusic-player-page.tab-header-container .tab-header:nth-of-type(3)
+
+  ! Hide "Upgrade" button in sidebar
+  music.youtube.com##ytmusic-guide-entry-renderer:has(path[d="M10 9.35L15 12l-5 2.65zM12 7a5 5 0 105 5 5 5 0 00-5-5m0-1a6 6 0 11-6 6 6 6 0 016-6zm0-3a9 9 0 109 9 9 9 0 00-9-9m0-1A10 10 0 112 12 10 10 0 0112 2z"])
+
+!--- Appearance ---
+!--- Behaviour ---
+
+! Disable YouTube service worker
+youtube.com##+js(set, yt.config_.EXPERIMENT_FLAGS.service_worker_enabled, false)
+
+!--- Behaviour ---
+
+!#endif
