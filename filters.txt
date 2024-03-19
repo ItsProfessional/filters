@@ -25,6 +25,7 @@
   rimgo.pussthecat.org##footer
 
 ! Wikiwand
+  ! AI section
   wikiwand.com##[class^="openai_wrapper"]
 
 ! BreezeWiki
@@ -66,7 +67,7 @@
   minecraft.wiki##.mw-footer > ul:is(#footer-places, #footer-icons)
   minecraft.wiki##.mw-footer > #footer-info > #footer-info-copyright
 
-  ! Remote notices
+  ! Notices
   minecraft.wiki###siteNotice
 
 ! Twitch
