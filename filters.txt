@@ -512,6 +512,9 @@ itsfoss.com##.author-info
 ! Comments
 itsfoss.com###comments
 
+! Ascii Code
+ascii-code.com##.sticky-top:remove-class(sticky-top)
+
 !--- Appearance ---
 !--- Behaviour ---
 ! Global
