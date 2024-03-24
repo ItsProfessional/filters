@@ -102,19 +102,13 @@
 
   ! Block certain users
     ! Reactions
-      github.com##.js-comment-reactions-options > button[id*=reaction_button_component]:has(+ tool-tip:has-text(krystian3w))
-      github.com##.js-comment-reactions-options > button[id*=reaction_button_component]:has(+ tool-tip:has-text(MaxStreamLoL))
+      github.com##.js-comment-reactions-options > button[id*=reaction_button_component]:has(+ tool-tip:has-text(/^(krystian3w|garry-ut99|MaxStreamLoL)/))
 
     ! Comments
-      github.com##.TimelineItem:has(a[href="/krystian3w"])
-      github.com##.TimelineItem:has(a[href="/MaxStreamLoL"])
+      github.com##.TimelineItem:has(a[href="/krystian3w"], a[href="/garry-ut99"], a[href="/MaxStreamLoL"])
 
-    ! Participants list
-      github.com##.participant-avatar[href="/krystian3w"]
-      github.com##.AvatarStack-body > .avatar[href="/krystian3w"]
-
-      github.com##.participant-avatar[href="/MaxStreamLoL"]
-      github.com##.AvatarStack-body > .avatar[href="/MaxStreamLoL"]
+    ! Participants list (in notifications)
+      github.com##:is(.participant-avatar, .AvatarStack-body > .avatar):is([href="/krystian3w"], [href="/garry-ut99"], [href="/MaxStreamLoL"])
 
 ! Gitlab
   ! Clean sidebar
