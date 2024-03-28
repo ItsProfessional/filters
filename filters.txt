@@ -509,6 +509,9 @@ itsfoss.com###comments
 ! Ascii Code
 ascii-code.com##.sticky-top:remove-class(sticky-top)
 
+! Anna's Archive
+annas-archive.org##.js-top-banner
+
 !--- Appearance ---
 !--- Behaviour ---
 ! Global
